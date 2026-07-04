@@ -5,15 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monitor Live Pendaftar - BIB Last Call 2026</title>
     <style>
-        /* Variabel Warna Tema Dark Mode Modern */
+        /* Variabel Warna Tema Light Mode */
         :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --accent: #38bdf8;
-            --accent-green: #34d399;
-            --border-color: #334155;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --primary-green: #15803d; /* Hijau Tua */
+            --primary-dark: #14532d;
+            --accent-mustard: #eab308; /* Kuning Mustard */
+            --border-color: #e2e8f0;
         }
 
         * {
@@ -26,14 +27,15 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
-            /* Padding base compact: atas-bawah 12px, kiri-kanan 16px */
-            padding: 12px 16px;
+            /* Padding dikurangi agar pas di layar mobile (atas-bawah 12px, kiri-kanan 12px) */
+            padding: 12px; 
             line-height: 1.5;
+            font-size: 14px; /* Font dasar lebih compact */
         }
 
         .container {
             max-width: 1000px;
-            margin: 0 6px;
+            margin: 0 auto;
         }
 
         /* Bagian Atas / Header */
@@ -41,60 +43,63 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border-color);
         }
 
         h1 {
-            font-size: 1.3rem;
+            font-size: 1.15rem;
             font-weight: 700;
+            color: var(--primary-dark);
         }
 
         /* Indikator Live Berkedip */
         .live-badge {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.8rem;
-            background-color: rgba(52, 211, 153, 0.1);
-            color: var(--accent-green);
-            padding: 6px 12px;
+            gap: 6px;
+            font-size: 0.75rem;
+            background-color: #fef9c3; /* Background kuning muda */
+            color: #854d0e;
+            padding: 4px 10px;
             border-radius: 20px;
-            font-weight: 600;
-            border: 1px solid rgba(52, 211, 153, 0.2);
+            font-weight: 700;
+            border: 1px solid #fde047;
+            text-transform: uppercase;
         }
 
         .pulse {
             width: 8px;
             height: 8px;
-            background-color: var(--accent-green);
+            background-color: var(--accent-mustard);
             border-radius: 50%;
-            box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7);
+            box-shadow: 0 0 0 0 rgba(234, 179, 8, 0.7);
             animation: pulse 1.6s infinite;
         }
 
         @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(52, 211, 153, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(234, 179, 8, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(234, 179, 8, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(234, 179, 8, 0); }
         }
 
         /* Layout Grid Otomatis (Mobile Friendly) */
         .grid-layout {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 20px;
+            gap: 16px;
         }
 
-        /* Jika dibuka di tablet/laptop, otomatis berubah jadi multi-kolom */
+        /* Menyesuaikan layout di layar lebih besar */
         @media (min-width: 768px) {
-            /* Menyeimbangkan kembali padding di layar besar */
             body {
-                padding: 30px;
+                padding: 24px;
+                font-size: 15px;
             }
             .grid-layout {
                 grid-template-columns: 1fr 2fr;
+                gap: 20px;
             }
             .full-width {
                 grid-column: span 2;
@@ -105,136 +110,141 @@
         .card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 0;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
         .card-title {
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+            color: var(--primary-green);
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
 
-        /* Kartu Utama: Total Pendaftar */
+        /* Kartu Utama: Total Pendaftar (Primary Color) */
         .hero-card {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 30px 12px;
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            border-left: 4px solid var(--accent);
+            padding: 24px 16px;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-dark) 100%);
+            border: none;
+            box-shadow: 0 4px 10px rgba(21, 128, 61, 0.2);
         }
 
         .hero-title {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            margin-bottom: 8px;
+            font-size: 0.85rem;
+            color: #dcfce7; /* Hijau sangat muda */
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         .hero-value {
-            font-size: 3.5rem;
+            font-size: 3rem;
             font-weight: 800;
-            color: var(--accent);
+            color: var(--accent-mustard);
             line-height: 1;
         }
 
-        /* Desain Kategori Pendaftar Teks Tunggal */
+        /* Desain Kategori Jenjang (Inline Badges) */
         .category-row {
             display: flex;
-            flex-wrap: wrap; /* Izinkan membungkus pada mobile sangat sempit */
-            gap: 8px; /* Jarak rapat antara lencana kategori */
-            justify-content: center; /* Pusatkan pada mobile */
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: flex-start;
             width: 100%;
-        }
-
-        @media (min-width: 768px) {
-            .category-row {
-                justify-content: space-around; /* Sejajarkan rapat di layar besar */
-            }
         }
 
         .category-item {
             display: flex;
             align-items: center;
-            gap: 6px; /* Jarak label dan jumlah lencana dikurangi */
-            background-color: rgba(255, 255, 255, 0.05); /* Latar belakang item kategori */
-            padding: 2px 6px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            gap: 8px;
+            background-color: #f1f5f9;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            border: 1px solid var(--border-color);
+            flex: 1;
+            justify-content: space-between;
         }
 
         .category-label {
-            font-weight: 500;
-            color: var(--text-muted);
+            font-weight: 600;
+            color: var(--text-main);
         }
 
         .category-badge-count {
             display: inline-block;
-            min-width: 20px;
-            padding: 1px 4px;
+            min-width: 24px;
+            padding: 2px 6px;
             font-weight: 700;
-            border-radius: 6px;
-            background-color: var(--accent);
-            color: var(--bg-color);
+            border-radius: 4px;
+            background-color: var(--primary-green);
+            color: #ffffff;
             text-align: center;
         }
 
-        /* Desain List Vertikal Jenis Beasiswa */
+        /* Desain List Vertikal Jenis Beasiswa (Dengan Separator) */
         .dense-list-card {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            /* Gap dihilangkan karena sekarang pakai border-bottom sebagai separator */
         }
 
         .dense-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 14px;
-            background-color: rgba(255, 255, 255, 0.015);
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            font-size: 0.9rem;
+            padding: 10px 4px;
+            border-bottom: 1px solid var(--border-color); /* Separator per item */
+            font-size: 0.85rem;
+        }
+
+        /* Hilangkan separator di item terakhir agar rapi */
+        .dense-item:last-child {
+            border-bottom: none;
         }
 
         .dense-item .label-wrap {
-            word-wrap: break-word; /* Mengizinkan pemotongan kata panjang */
+            word-wrap: break-word;
             overflow-wrap: break-word;
-            flex: 1; /* Biarkan label mengambil ruang yang tersedia */
-            margin-right: 12px; /* Jarak dari badge */
+            flex: 1;
+            margin-right: 12px;
+            color: var(--text-main);
+            font-weight: 500;
         }
 
         .dense-badge {
             display: inline-block;
             min-width: 28px;
             padding: 2px 8px;
-            font-weight: 700;
-            border-radius: 6px;
-            background-color: rgba(255, 255, 255, 0.05);
+            font-weight: 600;
+            border-radius: 4px;
+            background-color: #f1f5f9;
             color: var(--text-muted);
             text-align: center;
         }
 
-        /* Beri warna hijau menyala jika pendaftar beasiswa > 0 */
+        /* Warna Mustard menyala jika pendaftar beasiswa > 0 */
         .dense-badge.active {
-            background-color: rgba(52, 211, 153, 0.15);
-            color: var(--accent-green);
+            background-color: var(--accent-mustard);
+            color: #451a03; /* Teks cokelat gelap agar kontras dengan mustard */
+            font-weight: 700;
         }
 
         .loading {
             text-align: center;
             padding: 40px;
             color: var(--text-muted);
+            font-size: 0.9rem;
         }
     </style>
-    <!-- Memuat library PapaParse untuk membaca CSV -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 </head>
 <body>
@@ -248,7 +258,6 @@
             </div>
         </header>
 
-        <!-- Tempat Konten Dashboard Muncul -->
         <div id="dashboard-content" class="loading">
             Memuat data real-time dari Spreadsheet...
         </div>
@@ -256,8 +265,6 @@
 
     <script>
         // MASUKKAN LINK CSV PUBLISH TO WEB ANDA DI SINI
-        // Catatan: Gunakan tautan Publish to Web dengan parameter `&single=true&output=csv` dan gid yang benar.
-        // Tautan representatif ini mengarah ke gid=2107913479 berdasarkan struktur Excel awal.
         const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQTjMPWdZiffrXO7PuS1K_E7YyBCIJg7aKZhQbv68wQYDIgM935dhNfc9z2I_7ysKfvKBkHl7lJYG0L/pub?gid=2107913479&single=true&output=csv';
 
         Papa.parse(csvUrl, {
@@ -271,33 +278,29 @@
                     return;
                 }
 
-                // 1. Ambil Total Pendaftar (Baris 1 Kolom B -> data[0][1])
+                // 1. Ambil Total Pendaftar
                 const totalPendaftar = (data[0] && data[0][1]) ? data[0][1] : '0';
 
-                // 2. Ambil Kategori Jenjang (S1, S2, S3 dari baris 2-4, kolom C & D)
+                // 2. Ambil Kategori Jenjang
                 let kategoriHtml = '';
-                // S1 (Sarjana): Baris 2, Kolom C & D
                 if (data[1] && data[1][2]) {
                     kategoriHtml += `<div class="category-item"><span class="category-label">${data[1][2]}</span><span class="category-badge-count">${data[1][3] || '0'}</span></div>`;
                 }
-                // S2 (Magister): Baris 3, Kolom C & D
                 if (data[2] && data[2][2]) {
                     kategoriHtml += `<div class="category-item"><span class="category-label">${data[2][2]}</span><span class="category-badge-count">${data[2][3] || '0'}</span></div>`;
                 }
-                // S3 (Doktoral): Baris 4, Kolom C & D
                 if (data[3] && data[3][2]) {
                     kategoriHtml += `<div class="category-item"><span class="category-label">${data[3][2]}</span><span class="category-badge-count">${data[3][3] || '0'}</span></div>`;
                 }
 
-                // 3. Ambil Detail Jenis Beasiswa (Kolom E & F, baris ke-2 sampai ke-10, semua 9 item)
+                // 3. Ambil Detail Jenis Beasiswa
                 let beasiswaRowsHtml = '';
-                // Loop dari baris 2 (indeks 1) ke baris 10 (indeks 9)
                 for (let i = 1; i <= 9; i++) {
                     if (data[i] && data[i][4] && data[i][4].trim() !== '') {
                         const jenis = data[i][4];
                         const jumlah = parseInt(data[i][5]) || 0;
                         
-                        // Cek apakah ada pendaftar (> 0), kalau ada beri class khusus agar berwarna hijau
+                        // Cek apakah ada pendaftar (> 0), kalau ada beri class active untuk warna mustard
                         const badgeClass = jumlah > 0 ? 'dense-badge active' : 'dense-badge';
                         
                         beasiswaRowsHtml += `
@@ -309,16 +312,14 @@
                     }
                 }
 
-                // 4. Susun Semua Komponen Menjadi Layout Dashboard Responsive
+                // 4. Susun Semua Komponen
                 const dashboardHtml = `
                     <div class="grid-layout">
-                        <!-- Kartu Total Utama -->
                         <div class="card hero-card">
                             <span class="hero-title">Jumlah Total Pendaftar</span>
                             <span class="hero-value">${totalPendaftar}</span>
                         </div>
 
-                        <!-- Kartu Ringkasan Kategori Jenjang -->
                         <div class="card">
                             <div class="card-title">Kategori Pendaftar</div>
                             <div class="category-row">
@@ -326,7 +327,6 @@
                             </div>
                         </div>
 
-                        <!-- Kartu Detail Jenis Beasiswa (Melebar penuh di laptop, Vertikal compact list) -->
                         <div class="card full-width">
                             <div class="card-title">Detail Berdasarkan Jenis Beasiswa</div>
                             <div class="dense-list-card">
@@ -336,7 +336,7 @@
                     </div>
                 `;
 
-                // Tampilkan dashboard ke halaman web
+                // Tampilkan dashboard
                 document.getElementById('dashboard-content').innerHTML = dashboardHtml;
             },
             error: function(err) {
