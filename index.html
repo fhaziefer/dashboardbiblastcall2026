@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Monitor Live Pendaftar BIB Last Call 2026 Tahap 3</title>
+
+    <style>
+
+        /* Variabel Warna Tema Dark Mode Modern */
+
+        :root {
+
+            --bg-color: #0f172a;
+
+            --card-bg: #1e293b;
+
+            --text-main: #f8fafc;
+
+            --text-muted: #94a3b8;
+
+            --accent: #38bdf8;
+
+            --accent-green: #34d399;
+
+            --border-color: #334155;
+
+        }
+
+
+
+        * {
+
+            box-sizing: border-box;
+
+            margin: 0;
+
+            padding: 0;
+
+        }
+
+
+
+        body {
+
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+            background-color: var(--bg-color);
+
+            color: var(--text-main);
+
+            padding: 16px;
+
+            line-height: 1.5;
+
+        }
+
+
+
+        .container {
+
+            max-width: 1000px;
+
+            margin: 0 auto;
+
+        }
+
+
+
+        /* Bagian Atas / Header */
+
+        header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 24px;
+
+            padding-bottom: 16px;
+
+            border-bottom: 1px solid var(--border-color);
+
+        }
+
+
+
+        h1 {
+
+            font-size: 1.3rem;
+
+            font-weight: 700;
+
+        }
+
+
+
+        /* Indikator Live Berkedip */
+
+        .live-badge {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            font-size: 0.8rem;
+
+            background-color: rgba(52, 211, 153, 0.1);
+
+            color: var(--accent-green);
+
+            padding: 6px 12px;
+
+            border-radius: 20px;
+
+            font-weight: 600;
+
+            border: 1px solid rgba(52, 211, 153, 0.2);
+
+        }
+
+
+
+        .pulse {
+
+            width: 8px;
+
+            height: 8px;
+
+            background-color: var(--accent-green);
+
+            border-radius: 50%;
+
+            box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7);
+
+            animation: pulse 1.6s infinite;
+
+        }
+
+
+
+        @keyframes pulse {
+
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7); }
+
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(52, 211, 153, 0); }
+
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
+
+        }
+
+
+
+        /* Layout Grid Otomatis (Mobile Friendly) */
+
+        .grid-layout {
+
+            display: grid;
+
+            grid-template-columns: 1fr;
+
+            gap: 20px;
+
+        }
+
+
+
+        /* Jika dibuka di tablet/laptop, otomatis berubah jadi multi-kolom */
+
+        @media (min-width: 768px) {
+
+            .grid-layout {
+
+                grid-template-columns: 1fr 2fr;
+
+            }
+
+            .full-width {
+
+                grid-column: span 2;
+
+            }
+
+        }
+
+
+
+        /* Desain Kartu (Cards) */
+
+        .card {
+
+            background-color: var(--card-bg);
+
+            border: 1px solid var(--border-color);
+
+            border-radius: 12px;
+
+            padding: 20px;
+
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+
+        }
+
+
+
+        .card-title {
+
+            font-size: 0.9rem;
+
+            font-weight: 600;
+
+            margin-bottom: 16px;
+
+            color: var(--text-muted);
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.05em;
+
+        }
+
+
+
+        /* Kartu Utama: Total Pendaftar */
+
+        .hero-card {
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            text-align: center;
+
+            padding: 30px 20px;
+
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+
+            border-left: 4px solid var(--accent);
+
+        }
+
+
+
+        .hero-title {
+
+            font-size: 0.95rem;
+
+            color: var(--text-muted);
+
+            margin-bottom: 8px;
+
+        }
+
+
+
+        .hero-value {
+
+            font-size: 3.5rem;
+
+            font-weight: 800;
+
+            color: var(--accent);
+
+            line-height: 1;
+
+        }
+
+
+
+        /* Desain List Kategori Pendaftar */
+
+        .stat-list {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 12px;
+
+        }
+
+
+
+        .stat-item {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 12px 16px;
+
+            background-color: rgba(255, 255, 255, 0.02);
+
+            border-radius: 8px;
+
+            border: 1px solid rgba(255, 255, 255, 0.05);
+
+        }
+
+
+
+        .stat-label {
+
+            font-weight: 500;
+
+        }
+
+
+
+        .stat-value {
+
+            font-weight: 700;
+
+            color: var(--accent);
+
+            background-color: rgba(56, 189, 248, 0.1);
+
+            padding: 2px 10px;
+
+            border-radius: 6px;
+
+        }
+
+
+
+        /* Desain Tabel Jenis Beasiswa */
+
+        .table-container {
+
+            overflow-x: auto;
+
+            width: 100%;
+
+        }
+
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            text-align: left;
+
+            font-size: 0.95rem;
+
+        }
+
+
+
+        th, td {
+
+            padding: 12px 16px;
+
+            border-bottom: 1px solid var(--border-color);
+
+        }
+
+
+
+        th {
+
+            background-color: rgba(0, 0, 0, 0.2);
+
+            color: var(--text-muted);
+
+            font-weight: 600;
+
+            text-transform: uppercase;
+
+            font-size: 0.75rem;
+
+            letter-spacing: 0.05em;
+
+        }
+
+
+
+        tr:last-child td {
+
+            border-bottom: none;
+
+        }
+
+
+
+        tr:nth-child(even) {
+
+            background-color: rgba(255, 255, 255, 0.01);
+
+        }
+
+
+
+        .text-center {
+
+            text-align: center;
+
+        }
+
+
+
+        .badge-count {
+
+            display: inline-block;
+
+            min-width: 28px;
+
+            padding: 2px 8px;
+
+            font-weight: 700;
+
+            border-radius: 6px;
+
+            background-color: rgba(255, 255, 255, 0.05);
+
+            color: var(--text-muted);
+
+        }
+
+
+
+        /* Beri warna hijau menyala jika pendaftar beasiswa > 0 */
+
+        .badge-count.active {
+
+            background-color: rgba(52, 211, 153, 0.15);
+
+            color: var(--accent-green);
+
+        }
+
+
+
+        .loading {
+
+            text-align: center;
+
+            padding: 40px;
+
+            color: var(--text-muted);
+
+        }
+
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+
+</head>
+
+<body>
+
+
+
+    <div class="container">
+
+        <header>
+
+            <h1>BIB Last Call 2026</h1>
+
+            <div class="live-badge">
+
+                <div class="pulse"></div>
+
+                LIVE
+
+            </div>
+
+        </header>
+
+
+
+        <div id="dashboard-content" class="loading">
+
+            Memuat data real-time dari Spreadsheet...
+
+        </div>
+
+    </div>
+
+
+
+    <script>
+
+        // MASUKKAN LINK CSV PUBLISH TO WEB ANDA DI SINI
+
+        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQTjMPWdZiffrXO7PuS1K_E7YyBCIJg7aKZhQbv68wQYDIgM935dhNfc9z2I_7ysKfvKBkHl7lJYG0L/pub?gid=2107913479&single=true&output=csv';
+
+
+
+        Papa.parse(csvUrl, {
+
+            download: true,
+
+            header: false,
+
+            complete: function(results) {
+
+                const data = results.data;
+
+                
+
+                if (!data || data.length === 0) {
+
+                    document.getElementById('dashboard-content').innerHTML = '<p style="color:#ef4444; text-align:center;">Data kosong.</p>';
+
+                    return;
+
+                }
+
+
+
+                // 1. Ambil Total Pendaftar (Baris 1 Kolom B -> data[0][1])
+
+                const totalPendaftar = (data[0] && data[0][1]) ? data[0][1] : '0';
+
+
+
+                // 2. Ambil Kategori Jenjang (S1, S2, S3 dari baris 2-4, kolom C & D)
+
+                let kategoriHtml = '';
+
+                for (let i = 1; i <= 3; i++) {
+
+                    if (data[i] && data[i][2]) {
+
+                        const label = data[i][2];
+
+                        const nilai = data[i][3] || '0';
+
+                        kategoriHtml += `
+
+                            <div class="stat-item">
+
+                                <span class="stat-label">${label}</span>
+
+                                <span class="stat-value">${nilai}</span>
+
+                            </div>
+
+                        `;
+
+                    }
+
+                }
+
+
+
+                // 3. Ambil Detail Jenis Beasiswa (Kolom E & F, baris ke-2 sampai selesai)
+
+                let beasiswaRowsHtml = '';
+
+                for (let i = 1; i < data.length; i++) {
+
+                    if (data[i] && data[i][4] && data[i][4].trim() !== '') {
+
+                        const jenis = data[i][4];
+
+                        const jumlah = parseInt(data[i][5]) || 0;
+
+                        
+
+                        // Cek apakah ada pendaftar (> 0), kalau ada beri class khusus agar berwarna hijau
+
+                        const badgeClass = jumlah > 0 ? 'badge-count active' : 'badge-count';
+
+                        
+
+                        beasiswaRowsHtml += `
+
+                            <tr>
+
+                                <td>${jenis}</td>
+
+                                <td class="text-center"><span class="${badgeClass}">${jumlah}</span></td>
+
+                            </tr>
+
+                        `;
+
+                    }
+
+                }
+
+
+
+                // 4. Susun Semua Komponen Menjadi Layout Dashboard Responsive
+
+                const dashboardHtml = `
+
+                    <div class="grid-layout">
+
+                        <div class="card hero-card">
+
+                            <span class="hero-title">Jumlah Total Pendaftar</span>
+
+                            <span class="hero-value">${totalPendaftar}</span>
+
+                        </div>
+
+
+
+                        <div class="card">
+
+                            <div class="card-title">Kategori Pendaftar</div>
+
+                            <div class="stat-list">
+
+                                ${kategoriHtml}
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="card full-width">
+
+                            <div class="card-title">Detail Berdasarkan Jenis Beasiswa</div>
+
+                            <div class="table-container">
+
+                                <table>
+
+                                    <thead>
+
+                                        <tr>
+
+                                            <th>Jenis Beasiswa</th>
+
+                                            <th style="width: 100px;" class="text-center">Jumlah</th>
+
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody>
+
+                                        ${beasiswaRowsHtml}
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+
+
+                // Tampilkan dashboard ke halaman web
+
+                document.getElementById('dashboard-content').innerHTML = dashboardHtml;
+
+            },
+
+            error: function(err) {
+
+                document.getElementById('dashboard-content').innerHTML = '<p style="color:#ef4444; text-align:center;">Gagal memuat data. Periksa kembali link CSV Anda.</p>';
+
+                console.error(err);
+
+            }
+
+        });
+
+    </script>
+
+
+
+</body>
+
+</html>
